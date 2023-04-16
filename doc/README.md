@@ -67,3 +67,36 @@ Representa un móvil en concreto.
 
 - Generacion, enumerado. Puede tomar los valores PRIMERA, SEGUNDA, TERCERA, CUARTA, QUINTA.
 - Memorias, record. tipo auxiliar que contiene las memorias del móvil.
+
+### Factoria - FactoriaMoviles
+
+Clase de factoría para construir objetos de tipo Moviles.
+
+- _Moviles leerMoviles(String rutaFichero)_: Crea un objeto de tipo Moviles a partir de la información recogida en el archivo csv, cuya ruta se da como parámetro.
+
+### Tipo Contenedor - MovilesImpl
+
+Clase contenedora de los objetos de tipo Movil.
+
+#### Propiedades:
+
+- _moviles_, de tipo _List<Movil>_, consultable. Lista de moviles.
+- _numero moviles_, de tipo _Integer_, consultable. Número de moviles del contenedor.
+
+**Constructores**: 
+
+- C1: Constructor por defecto. Creal un objeto de tipo Moviles sin ningun movil almacenado.
+- C2: Constructor con un parámetro de tipo Collection<Movil>. Crea un objeto de tipo Moviles con los moviles incluidos en la colección dada como parámetro.
+- C3: Constructor con un parámetro de tipo Stream<Movil>. Crea un objeto de tipo Moviles con los moviles incluidos en el Stream dado
+
+**Criterio de igualdad**: Dos moviles son iguales si lo son sus propiedades.
+
+**Otras operaciones**:
+
+- _void añadirMovil(Movil m)_: Añade un movil al objeto.
+- _void eliminarMovil(Movil m)_: Elimina un movil del objeto.
+- _Boolean existeMovil(Integer anyo)_: Devuelve un _Boolean_ que indica si se encuentra en el objeto algún móvil que coincida su fecha de lanzamiento con dicho año.
+- _Double mediaPrecioMoviles()_: Devuelve la media de los precios (tipo _Double_) de todos los móviles del objeto.
+- _List<Movil> filtrarNFC(Boolean nfc)_: Devuelve una lista que contiene los móviles que cumplan la condición del parametro dado.
+- _Map<Integer, List<String>> filtrarMovilesPorAnyo()_: Devuelve un Map en el que las claves son los años de la fecha de lanzamiento y los valores una lista con los móviles que hayan sido lanzados dicho año.
+- _Map<Boolean, Integer> conteoSegunNFC()_: Devuelve un Map en el que las claves es un tipo _Boolean_ y los valores el número de móviles que cumplen la condición de la propiedad nfc.

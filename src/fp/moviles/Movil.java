@@ -92,7 +92,7 @@ public class Movil implements Comparable<Movil>{
 		return nfc;
 	}
 
-	public LocalDate getfSalida() {
+	public LocalDate getFSalida() {
 		return fSalida;
 	}
 	
@@ -153,7 +153,7 @@ public class Movil implements Comparable<Movil>{
 	public int compareTo(Movil m) {
 		int res = this.getNombre().compareTo(m.getNombre ());
 		if (res==0) {
-			res = this.getPrecio().compareTo(m.getPrecio());
+			res = this.getFSalida().compareTo(m.getFSalida());
 		}
 		return res;
 	}

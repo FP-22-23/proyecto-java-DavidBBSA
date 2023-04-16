@@ -15,7 +15,7 @@ public class TestMovil {
 		m1.añadirPaisMasVendido("China");
 		m1.añadirPaisMasVendido("España");
 		System.out.println(m1);
-		System.out.println("El móvil " + m1.getNombre() + " pertenece a la " + m1.getGeneracion(m1.getfSalida()) + " generación");
+		System.out.println("El móvil " + m1.getNombre() + " pertenece a la " + m1.getGeneracion(m1.getFSalida()) + " generación");
 		
 		Movil m2 = m1;
 		System.out.println("¿Es m1 = m2?: " + m1.equals(m2));
