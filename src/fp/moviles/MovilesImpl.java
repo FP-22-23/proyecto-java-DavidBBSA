@@ -1,15 +1,18 @@
 package fp.moviles;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-
 
 
 public class MovilesImpl implements Moviles {
@@ -121,11 +124,11 @@ public class MovilesImpl implements Moviles {
 	 * devuelve una lista con los elementos que contienen o no NFC.
 	 */
 	@Override
-	public List<Movil> filtrarNFC(Boolean nfc) {
-		List<Movil> res = new ArrayList<>();
+	public List<String> filtrarNFC(Boolean nfc) {
+		List<String> res = new ArrayList<>();
 		for(Movil m:moviles) {
 			if(m.getNfc() == nfc) {
-				res.add(m);
+				res.add(m.getNombre());
 				}
 			}
 		return res;
@@ -171,7 +174,95 @@ public class MovilesImpl implements Moviles {
 		}
 		return res;
 	}
+
+	@Override
+	public Boolean existeMovilStream(Integer anyo) {
+		return moviles.stream()
+				.anyMatch(m->m.getFSalida().getYear() == anyo);
+		}
 	
+	@Override
+	public Double mediaPrecioStream() {
+		return moviles.stream()
+				.collect(Collectors.averagingDouble(Movil::getPrecio));
+	}
 	
+	@Override
+	public List<String> filtrarNfcStream(){
+		return moviles.stream()
+				.filter(m->m.getNfc() == true)
+				.map(m->m.getNombre())
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public Integer precioMovilMasVendidoAntesDelAnyo(Integer anyo) {
+		Comparator<Movil> c = Comparator.comparing(m->m.getNumVentas());
+		return moviles.stream()
+				.filter(m->m.getFSalida().isBefore(LocalDate.of(anyo, 1, 1)))
+				.max(c)
+				.map(m->m.getPrecio())
+				.orElse(null);
+	}
+	
+	@Override
+	public List<Movil> ordenarPorEstrellas(String ram){
+		Comparator<Movil> c = Comparator.comparing(m->m.getEstrellas());
+		return moviles.stream()
+				.filter(m->m.getMemorias().ram().equals(ram))
+				.sorted(c.reversed())
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public Map<String, Long> numeroDeMovilesSegunRam(){
+		return moviles.stream()
+				.collect(Collectors.groupingBy(m->m.getMemorias().ram(), Collectors.counting()));
+	}
+	
+	@Override
+	public Map<Integer,Set<String>> movilPorAnyo(){
+		return moviles.stream().collect(Collectors.groupingBy(m->m.getFSalida().getYear(),Collectors.mapping(Movil::getNombre, Collectors.toSet())));
+		
+	}
+	
+	@Override
+	public Map<String, Integer> movilMasBaratoPorRom(){
+		 Comparator<Movil> c = Comparator.comparing(m->m.getPrecio());
+		 Map<String, Integer> res =  moviles.stream()
+				 .collect(Collectors.groupingBy(
+			                m -> m.getMemorias().rom(), Collectors.collectingAndThen(Collectors.minBy(c),  m->m.get().getPrecio())))
+			                ;
+		 return res;
+	}
+	
+	@Override
+	public SortedMap<String, List<Double>> topMejoresValoracionesPorRam(Integer n) {
+		SortedMap<String, List<Double>> maux =
+				moviles.stream()
+				.collect(Collectors.groupingBy(
+						m->m.getMemorias().ram(),
+						TreeMap::new,
+						Collectors.collectingAndThen(
+								Collectors.toList(),
+								lista -> listaTopNEstrellas(lista, n))));
+		return maux;
+	}
+	private List<Double> listaTopNEstrellas(List<Movil> lisMoviles, Integer n){
+		Comparator<Movil> c = Comparator.comparing(Movil::getEstrellas).thenComparing(Movil::getCalificaciones);
+		return lisMoviles.stream()
+				.sorted(c.reversed())
+				.limit(n)
+				.map(m->m.getEstrellas())
+				.collect(Collectors.toList())
+				;
+	}
+	
+	@Override
+	public String movilMasVendido() {
+		 Map<String, Integer> res= moviles.stream().collect(Collectors.toMap(Movil::getNombre, Movil::getNumVentas));
+		 
+		 return res.entrySet().stream().max(Map.Entry.comparingByValue()).map(c->c.getKey()).orElse("");
+	}
 	
 }

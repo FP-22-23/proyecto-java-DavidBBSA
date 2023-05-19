@@ -95,8 +95,21 @@ Clase contenedora de los objetos de tipo Movil.
 
 - _void añadirMovil(Movil m)_: Añade un movil al objeto.
 - _void eliminarMovil(Movil m)_: Elimina un movil del objeto.
-- _Boolean existeMovil(Integer anyo)_: Devuelve un _Boolean_ que indica si se encuentra en el objeto algún móvil que coincida su fecha de lanzamiento con dicho año.
+- _Boolean existeMovil(Integer anyo)_: Devuelve un _Boolean_ que indica si algún móvil que coincida su fecha de lanzamiento con dicho año.
 - _Double mediaPrecioMoviles()_: Devuelve la media de los precios (tipo _Double_) de todos los móviles del objeto.
 - _List<Movil> filtrarNFC(Boolean nfc)_: Devuelve una lista que contiene los móviles que cumplan la condición del parametro dado.
 - _Map<Integer, List<String>> filtrarMovilesPorAnyo()_: Devuelve un Map en el que las claves son los años de la fecha de lanzamiento y los valores una lista con los móviles que hayan sido lanzados dicho año.
 - _Map<Boolean, Integer> conteoSegunNFC()_: Devuelve un Map en el que las claves es un tipo _Boolean_ y los valores el número de móviles que cumplen la condición de la propiedad nfc.
+- _Boolean existeMovilStream(Integer anyo)_: Devuelve true si contiene algún móvil en el cual el año de la fecha de salida sea igual al año del parámetro introducido, devuelve false en caso contrario. Mediante Stream.
+- _Double mediaPrecioStream()_: Calcula la media de todos los precios de los móviles.
+- _List<String> filtrarNfcStream()_: Devuelve una lista con los nombres de los móviles que contienen nfc.
+- _Integer precioMovilMasVendidoAntesDelAnyo(Integer anyo)_: Primero crea una lista con los moviles con el año de la fecha de salida anterior al año recibido en el parametro para después devolver el precio máximo de dicha lista filtrada.
+- _List<Movil> ordenarPorEstrellas(String ram)_: Almacena en una lista los móviles que tienen la misma ram que recibe en el parámetro y los ordena de más puntuación de estrellas a menos. 
+- _Map<String, Long> numeroDeMovilesSegunRam()_: Devuelve un diccionario en el que las claves son las diferentes capacidades de memoria ram y el valor el número de móviles que poseen dicha memoria ram.
+- _Map<Integer,Set<String>> movilPorAnyo()_: Devuelve un diccionario en el cual las claves son los años de fecha de salida de los móviles y la clave es un conjunto con todos los nombres de los móviles que salieron de salida dicho año.
+- _Map<String, Integer> movilMasBaratoPorRom()_: Devuelve un diccionario en el que las claves son las diferentes capacidades de memoria rom y el valor el nombre del móvil con el precio más barato y misma rom.
+- _SortedMap<String, List<Double>> topMejoresValoracionesPorRam(Integer n)_: Devuelve un diccionario en el que las claves están ordenadas por ordén alfabético. Las claves son las memorias ram y el valor una lista con la n mejores valoraciones que tienen los móviles de dicha ram.
+- _String movilMasVendido()_: A través de un diccionario en el cual la clave es el nombre del móvil y el valor el número de unidades vendidas, se queda con el nombre del móvil con mayor número de unidades vendidas.
+
+
+

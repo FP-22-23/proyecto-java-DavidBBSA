@@ -7,7 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import fp.common.Memorias;
@@ -19,8 +20,7 @@ public class FactoriaMoviles {
 		
 		Moviles res = null;
 		try{
-			Stream<Movil> sv = 
-					Files.lines(Paths.get(rutaFichero)).skip(1).map(FactoriaMoviles::parsearMovil);
+			Stream<Movil> sv = Files.lines(Paths.get(rutaFichero)).skip(1).map(FactoriaMoviles::parsearMovil);
 			res = new MovilesImpl(sv);
 				}catch(IOException e) {
 						System.out.println("No se ha encontrado el fichero" + rutaFichero);
@@ -31,7 +31,6 @@ public class FactoriaMoviles {
 
 	public static Movil parsearMovil(String lineaCSV) {
 		String[] campos = lineaCSV.split(";");
-		System.out.println(campos);
 		Checkers.check("Error en elementos movil", campos.length == 10);
 		String nombre = campos[0].trim();
 		String ram = campos[1].trim();
